@@ -1,4 +1,6 @@
-# gsrs-dashboard
+# G-SRS Dashboard
+![Loading Page](./gsrs-loading.png)
+![Page 1](gsrs-pg1.png)
 Data dashboard analyzing adverse event and substance data from FDA's Global Substance Registration System
 
 ## How to run
