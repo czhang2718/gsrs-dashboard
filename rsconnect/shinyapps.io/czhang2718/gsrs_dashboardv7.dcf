@@ -1,0 +1,14 @@
+name: gsrs_dashboardv7
+title: gsrs_dashboardv7
+username:
+account: czhang2718
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 2677818
+bundleId: 5688146
+url: https://czhang2718.shinyapps.io/gsrs_dashboardv7/
+when: 1647371932.8448
+lastSyncTime: 1647371932.8448
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: .RData|DSET_ALL2.csv|www/gsrs_dashboardv7 - Shortcut.lnk
