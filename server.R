@@ -12,7 +12,7 @@ function(input, output, session) {
     
     output$faers_link <- renderUI({
         print(gsub(' ', '-', str_to_title(input$intro_drug)))
-        a("View on FAERS Public Dashboard", target="_blank", href=paste0("https://fis.fda.gov/sense/app/95239e26-e0be-42d9-a960-9a5f7f1c25ee/sheet/45beeb74-30ab-46be-8267-5756582633b4/state/analysis/select/Search%20Term/", gsub(' ', '-', str_to_title(input$intro_drug))))
+        a("View on FAERS Public Dashboard", target="_blank", href=paste0("https://fis.fda.gov/sense/app/95239e26-e0be-42d9-a960-9a5f7f1c25ee/sheet/45beeb74-30ab-46be-8267-5756582633b4/state/analysis/select/Search%20Term/", gsub(' ', '-', str_to_title(input$intro_drug)), "%20(G)"))
     })
     
     #right-side vertical bar chart
