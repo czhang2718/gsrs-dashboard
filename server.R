@@ -256,7 +256,7 @@ function(input, output, session) {
     output$top_subs <- renderPlotly({
         #adverse events
         
-        aes = dset[which(dset$PT_TERM == input$intro_ae), c(2, 7, 11)] %>% distinct();
+        aes = dset[which(dset$PT_TERM == input$intro_ae), c('INAME', 'PT_COUNT', 'PRR')] %>% distinct();
         
         shiny::validate(
             need(nrow(aes)>0, 'No Data Available')
@@ -292,14 +292,14 @@ function(input, output, session) {
         },
         content = function(file){
             if(input$downloadType6 == ".csv") {
-                write.csv(dset[which(dset$PT_TERM == input$intro_ae), c(2, 7, 11)], file, row.names = FALSE)
+                write.csv(dset[which(dset$PT_TERM == input$intro_ae), c('INAME', 'PT_COUNT', 'PRR')], file, row.names = FALSE)
             } else if(input$downloadType6 == ".json") {
-                exportJSON <- toJSON(dset[which(dset$PT_TERM == input$intro_ae), c(2, 7, 11)])
+                exportJSON <- toJSON(dset[which(dset$PT_TERM == input$intro_ae), c('INAME', 'PT_COUNT', 'PRR')])
                 write(exportJSON, file)
             } else if(input$downloadType6 == ".xlsx") {
-                write_xlsx(dset[which(dset$PT_TERM == input$intro_ae), c(2, 7, 11)], path=file)
+                write_xlsx(dset[which(dset$PT_TERM == input$intro_ae), c('INAME', 'PT_COUNT', 'PRR')], path=file)
             } else if(input$downloadType6 == ".txt") {
-                write.table(dset[which(dset$PT_TERM == input$intro_ae), c(2, 7, 11)], file, row.names=FALSE)
+                write.table(dset[which(dset$PT_TERM == input$intro_ae), c('INAME', 'PT_COUNT', 'PRR')], file, row.names=FALSE)
             }
         }
         
@@ -317,7 +317,7 @@ function(input, output, session) {
     
     #pop up formattable dt on maximize button
     observeEvent(input$popdt2, ignoreInit=T, {
-        aes = dset[which(dset$PT_TERM == input$intro_ae), c(2, 7, 11)]
+        aes = dset[which(dset$PT_TERM == input$intro_ae), c('INAME', 'PT_COUNT', 'PRR')]
         if(nrow(aes)==0){
             showNotification("Not enough data available", type="warning")
         }
@@ -394,11 +394,11 @@ function(input, output, session) {
     
     observeEvent(event_data("plotly_click", source = "P"), {
         pieData = event_data("plotly_click", source = "P")
-        if(pieData$key=="<1") tableDat = dset[which(dset$PT_TERM == input$intro_ae & dset$PRR<1), c(2, 7, 11)]
-        else if(pieData$key=="1-5") tableDat = dset[which(dset$PT_TERM == input$intro_ae & dset$PRR>=1 & dset$PRR<5), c(2, 7, 11)]
-        else if(pieData$key=="5-10") tableDat = dset[which(dset$PT_TERM == input$intro_ae & dset$PRR>=5 & dset$PRR<10), c(2, 7, 11)]
-        else if(pieData$key=="10-100") tableDat = dset[which(dset$PT_TERM == input$intro_ae & dset$PRR>=10 & dset$PRR<100), c(2, 7, 11)]
-        else if(pieData$key==">100") tableDat = dset[which(dset$PT_TERM == input$intro_ae & dset$PRR>=100), c(2, 7, 11)]
+        if(pieData$key=="<1") tableDat = dset[which(dset$PT_TERM == input$intro_ae & dset$PRR<1), c('INAME', 'PT_COUNT', 'PRR')]
+        else if(pieData$key=="1-5") tableDat = dset[which(dset$PT_TERM == input$intro_ae & dset$PRR>=1 & dset$PRR<5), c('INAME', 'PT_COUNT', 'PRR')]
+        else if(pieData$key=="5-10") tableDat = dset[which(dset$PT_TERM == input$intro_ae & dset$PRR>=5 & dset$PRR<10), c('INAME', 'PT_COUNT', 'PRR')]
+        else if(pieData$key=="10-100") tableDat = dset[which(dset$PT_TERM == input$intro_ae & dset$PRR>=10 & dset$PRR<100), c('INAME', 'PT_COUNT', 'PRR')]
+        else if(pieData$key==">100") tableDat = dset[which(dset$PT_TERM == input$intro_ae & dset$PRR>=100), c('INAME', 'PT_COUNT', 'PRR')]
         
         output$pie_data2 <- renderDataTable({datatable(tableDat, selection = "none", rownames=FALSE, options = list(
             lengthMenu = list(c(10, 25, 50, -1), c("10", "25", "50", "All")),
