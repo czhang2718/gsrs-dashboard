@@ -4,6 +4,6 @@
 Data dashboard analyzing adverse event and substance data from FDA's Global Substance Registration System
 
 ## How to run
-Create a folder with the above code and data files, which is everything *except* folder test-data, folder rsconnect/shinyapps.io/czhang2718, gsrs-pg1.png, gsrs-loading.png, and README.md. Load your data set into a variable `dset` (commented out in line 41 of global.R). 
+Download all the code, unzip, and open either `ui.R`, `server.R`, or `global.R`.
 
-Make sure all packages are installed. Then run the app with `shiny::runApp('[name of folder]')`, like `shiny::runApp('gsrs_dashboardv7')`, or simply with "Run App" on RShiny.
+Make sure all packages are installed. Then run the app with `shiny::runApp('gsrs-dashboard-main')` (or whatever your folder name is). Alternatively, open one of the R files in RShiny and "Run App" under the External option.
