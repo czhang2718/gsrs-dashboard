@@ -39,7 +39,7 @@ load_data <-function() {
 
 #load main dataset
 dset <- read.csv("DSET_ALL2.csv")
-dset=dset[,-1]
+#dset=dset[,-1]
 heat_test <- read.csv("HEAT_DSET.csv")
 
 # page 1
