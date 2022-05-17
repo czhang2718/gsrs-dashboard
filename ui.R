@@ -91,7 +91,7 @@ tagList(
                          box(width=3, solidHeader=TRUE,
                              
                              div(align="center", 
-                                 selectInput("downloadType", "Download As", c(".csv", ".txt", ".xlsx", ".json"), selected=".csv", width="60%"),
+                                 selectInput("downloadType", "Download As", c(".csv", ".txt", ".json"), selected=".csv", width="60%"),
                                  downloadButton("dload", "Download")),
                          )
                   )
@@ -122,7 +122,7 @@ tagList(
                              tags$head(tags$style("#bar_title1{
                                  font-size: 20px;
                                  }"
-                              )
+                             )
                              ),
                              div(id="aebar", style="overflow-y: scroll; position: relative", plotlyOutput("top_ae"))
                          )
@@ -139,7 +139,7 @@ tagList(
                          box(width=3, solidHeader=TRUE,
                              
                              div(align="center", 
-                                 selectInput("downloadType6", "Download As", c(".csv", ".txt", ".xlsx", ".json"), selected=".csv", width="60%"),
+                                 selectInput("downloadType6", "Download As", c(".csv", ".txt", ".json"), selected=".csv", width="60%"),
                                  downloadButton("dload2", "Download")),
                          )
                   )
@@ -224,7 +224,7 @@ tagList(
                          bsModal("ae_dt", "Data Table", trigger="dt_open1", size="large",
                                  div(style="float: left", checkboxInput("alldata", "Unfiltered", value = FALSE)),
                                  div(style="float:right", downloadButton("download_2", "Download")),
-                                 div(style="float:right", selectInput("downloadType2", label=NULL, choices=c("CSV"=".csv", "TXT"=".txt", "XLSX"=".xlsx", "JSON"=".json"), selected=".csv", width=80)),
+                                 div(style="float:right", selectInput("downloadType2", label=NULL, choices=c("CSV"=".csv", "TXT"=".txt", "JSON"=".json"), selected=".csv", width=80)),
                                  
                                  DTOutput("table1")
                          ))
@@ -240,11 +240,11 @@ tagList(
                              ),
                              
                              hidden(div(id="mult_ae_upl", helper(
-                               fileInput("compae_file", "Compare with", multiple = FALSE, accept = c("text/csv", "text/comma-separated-values,text/plain", ".csv", ".xlsx")),
+                               fileInput("compae_file", "Compare with", multiple = FALSE, accept = c("text/csv", "text/comma-separated-values,text/plain", ".csv")),
                                icon= "question-circle",
                                type="inline",
-                               content="Accepts text/csv, text/comma-separated-values, text/plain, .csv, .xlsx"
-                               ))),
+                               content="Accepts text/csv, text/comma-separated-values, text/plain, .csv"
+                             ))),
                              span("Number of Substances \u2265"),
                              div(style="display: inline-block;", numericInput("num_obs", label = NULL, value = 5, width = "55px", min=1, max=1000)),
                              actionLink("classes", "Filter"),    
@@ -316,7 +316,7 @@ tagList(
                          
                          bsModal("subs_dt", "Data Table", trigger="dt_open2", size="large",
                                  div(style="float:right", downloadButton("download_3", "Download")),
-                                 div(style="float:right", selectInput("downloadType3", label=NULL, choices=c("CSV"=".csv", "TXT"=".txt", "XLSX"=".xlsx", "JSON"=".json"), selected=".csv", width=80)),
+                                 div(style="float:right", selectInput("downloadType3", label=NULL, choices=c("CSV"=".csv", "TXT"=".txt", "JSON"=".json"), selected=".csv", width=80)),
                                  
                                  DTOutput("table2")
                          )
@@ -331,10 +331,10 @@ tagList(
                              ),
                              
                              hidden(div(id="mult_sub_upl", helper(
-                               fileInput("compsub_file", "Compare with", multiple = FALSE, accept = c("text/csv", "text/comma-separated-values,text/plain", ".csv", ".xlsx")),
+                               fileInput("compsub_file", "Compare with", multiple = FALSE, accept = c("text/csv", "text/comma-separated-values,text/plain", ".csv")),
                                icon= "question-circle",
                                type="inline",
-                               content="Accepts text/csv, text/comma-separated-values, text/plain, .csv, .xlsx"
+                               content="Accepts text/csv, text/comma-separated-values, text/plain, .csv"
                              ))),
                              "Minimum adverse event count: ",
                              div(style="display: inline-block;", numericInput("min_ae", label = NULL, value = 10, width = "60px", min=5, max=100)),
@@ -358,7 +358,7 @@ tagList(
                              hidden(div(id="cstm", style="display: inline-block; vertical-align: -520%; width: 10%", dropdownBtn(
                                label = "Custom list", status = "default", width = "50%",
                                checkboxGroupInput(inputId = "custom_list", label = "Choose", choices = vars2)))),
-                             hidden(div(id="upload_div", style="display: inline-block; vertical-align: top; width: 15%", fileInput("drugs_file", "Upload", multiple = FALSE, accept = c("text/csv", "text/comma-separated-values,text/plain", ".csv", ".xlsx")))))
+                             hidden(div(id="upload_div", style="display: inline-block; vertical-align: top; width: 15%", fileInput("drugs_file", "Upload", multiple = FALSE, accept = c("text/csv", "text/comma-separated-values,text/plain", ".csv")))))
                   )
                 ),
                 
@@ -386,48 +386,48 @@ tagList(
                                                     hidden(div(id="cstm2", style="display: inline-block; width: 10%", dropdownBtn(
                                                       label = "Custom list", status = "default", width = "50%",
                                                       checkboxGroupInput(inputId = "custom_list2", label = "Choose", choices = vars2)))),
-                                                    hidden(div(id="upload_div2", style="display: inline-block;  width: 30%", fileInput("drugs_file2", "Upload", multiple = FALSE, accept = c("text/csv", "text/comma-separated-values,text/plain", ".csv", ".xlsx")))))
+                                                    hidden(div(id="upload_div2", style="display: inline-block;  width: 30%", fileInput("drugs_file2", "Upload", multiple = FALSE, accept = c("text/csv", "text/comma-separated-values,text/plain", ".csv")))))
                                          ),
                                          div(id="one_hist",
-                                           splitLayout(  
-                                             div(style="overflow-x: hidden", 
-                                                 actionButton("pop_histogram", label="", icon = icon("fas fa-expand-arrows-alt"), style="display: inline-block; float: left"), 
-                                                 bsModal("histogram_modal", "", trigger="pop_histogram", size="large", div(style="margin-top: 60px; overflow-x: hidden", plotlyOutput("histogram2"))),
-                                                 tags$br(), tags$br(),
-                                                 withSpinner(plotlyOutput("histogram")),
-                                                 tags$br(), hidden(textOutput("percentile")), tags$head(tags$style("#percentile{color: red;}"))),
-                                             div(uiOutput("drug_name"), tags$style(HTML("#drug_name{font-size: large; text-align: center}")), div(style="float: left; display:inline-block", numericInput("pcentile_input", "Percentile", value=95, step=.5, width="75px")),
-                                                 div(style="display: inline-block", uiOutput("perc_val")), div(style="display: inline-block", uiOutput("perc_count")),
-                                                 div(style="float:right", downloadButton("dload4_1", "Download")),
-                                                 div(style="float:right", selectInput("downloadType4_1", label=NULL, choices=c("CSV"=".csv", "TXT"=".txt", "XLSX"=".xlsx", "JSON"=".json"), selected=".csv", width=80)),
-                                                 DTOutput("drugperc")))
+                                             splitLayout(  
+                                               div(style="overflow-x: hidden", 
+                                                   actionButton("pop_histogram", label="", icon = icon("fas fa-expand-arrows-alt"), style="display: inline-block; float: left"), 
+                                                   bsModal("histogram_modal", "", trigger="pop_histogram", size="large", div(style="margin-top: 60px; overflow-x: hidden", plotlyOutput("histogram2"))),
+                                                   tags$br(), tags$br(),
+                                                   withSpinner(plotlyOutput("histogram")),
+                                                   tags$br(), hidden(textOutput("percentile")), tags$head(tags$style("#percentile{color: red;}"))),
+                                               div(uiOutput("drug_name"), tags$style(HTML("#drug_name{font-size: large; text-align: center}")), div(style="float: left; display:inline-block", numericInput("pcentile_input", "Percentile", value=95, step=.5, width="75px")),
+                                                   div(style="display: inline-block", uiOutput("perc_val")), div(style="display: inline-block", uiOutput("perc_count")),
+                                                   div(style="float:right", downloadButton("dload4_1", "Download")),
+                                                   div(style="float:right", selectInput("downloadType4_1", label=NULL, choices=c("CSV"=".csv", "TXT"=".txt", "JSON"=".json"), selected=".csv", width=80)),
+                                                   DTOutput("drugperc")))
                                          ),
                                          hidden(div(id="two_hist",
                                                     withSpinner(plotlyOutput("combined_hist")),
-                                             splitLayout(cellArgs = list(style = "padding: 15px"),
-                                               div(style="overflow-x: hidden", verticalLayout(
-                                                 div(id="1", 
-                                                     hidden(textOutput("percentile21")), tags$head(tags$style("#percentile21{color: red;}"))
-                                                 ), 
-                                                 div(id="2", 
-                                                     uiOutput("drug_name21"), tags$style(HTML("#drug_name21{font-size: large; text-align: center}")), div(style="float: left; display:inline-block", numericInput("pcentile_input21", "Percentile", value=95, step=.5, width="75px")),
-                                                     div(style="display: inline-block", uiOutput("perc_val21")), div(style="display: inline-block", uiOutput("perc_count21")),
-                                                     div(style="float:right", downloadButton("dload4_121", "Download")),
-                                                     div(style="float:right", selectInput("downloadType4_121", label=NULL, choices=c("CSV"=".csv", "TXT"=".txt", "XLSX"=".xlsx", "JSON"=".json"), selected=".csv", width=80)),
-                                                     DTOutput("drugperc21")
-                                                     ))),
-                                               div(style="overflow-x: hidden", verticalLayout(
-                                                 div(id="3", 
-                                                     hidden(textOutput("percentile22")), tags$head(tags$style("#percentile22{color: red;}"))
-                                                 ), 
-                                                 div(id="4", 
-                                                     uiOutput("drug_name22"), tags$style(HTML("#drug_name22{font-size: large; text-align: center}")), div(style="float: left; display:inline-block", numericInput("pcentile_input22", "Percentile", value=95, step=.5, width="75px")),
-                                                     div(style="display: inline-block", uiOutput("perc_val22")), div(style="display: inline-block", uiOutput("perc_count22")),
-                                                     div(style="float:right", downloadButton("dload4_122", "Download")),
-                                                     div(style="float:right", selectInput("downloadType4_122", label=NULL, choices=c("CSV"=".csv", "TXT"=".txt", "XLSX"=".xlsx", "JSON"=".json"), selected=".csv", width=80)),
-                                                     DTOutput("drugperc22")
-                                                 )))
-                                             )
+                                                    splitLayout(cellArgs = list(style = "padding: 15px"),
+                                                                div(style="overflow-x: hidden", verticalLayout(
+                                                                  div(id="1", 
+                                                                      hidden(textOutput("percentile21")), tags$head(tags$style("#percentile21{color: red;}"))
+                                                                  ), 
+                                                                  div(id="2", 
+                                                                      uiOutput("drug_name21"), tags$style(HTML("#drug_name21{font-size: large; text-align: center}")), div(style="float: left; display:inline-block", numericInput("pcentile_input21", "Percentile", value=95, step=.5, width="75px")),
+                                                                      div(style="display: inline-block", uiOutput("perc_val21")), div(style="display: inline-block", uiOutput("perc_count21")),
+                                                                      div(style="float:right", downloadButton("dload4_121", "Download")),
+                                                                      div(style="float:right", selectInput("downloadType4_121", label=NULL, choices=c("CSV"=".csv", "TXT"=".txt", "JSON"=".json"), selected=".csv", width=80)),
+                                                                      DTOutput("drugperc21")
+                                                                  ))),
+                                                                div(style="overflow-x: hidden", verticalLayout(
+                                                                  div(id="3", 
+                                                                      hidden(textOutput("percentile22")), tags$head(tags$style("#percentile22{color: red;}"))
+                                                                  ), 
+                                                                  div(id="4", 
+                                                                      uiOutput("drug_name22"), tags$style(HTML("#drug_name22{font-size: large; text-align: center}")), div(style="float: left; display:inline-block", numericInput("pcentile_input22", "Percentile", value=95, step=.5, width="75px")),
+                                                                      div(style="display: inline-block", uiOutput("perc_val22")), div(style="display: inline-block", uiOutput("perc_count22")),
+                                                                      div(style="float:right", downloadButton("dload4_122", "Download")),
+                                                                      div(style="float:right", selectInput("downloadType4_122", label=NULL, choices=c("CSV"=".csv", "TXT"=".txt", "JSON"=".json"), selected=".csv", width=80)),
+                                                                      DTOutput("drugperc22")
+                                                                  )))
+                                                    )
                                          ))
                                 ),
                                 tabPanel("PRRs Sorted", div(style="width:30%", uiOutput("sortby4")), div(style="overflow-x: scroll; position: relative", 
@@ -521,7 +521,7 @@ tagList(
                                         withSpinner(plotly::plotlyOutput("heatout",height=paste0(plotHeight,'px')))
                         ),
                         shiny::tabPanel("Matrix",
-                                        div(selectInput("downloadTypeHeat", "Download As", c(".csv", ".txt", ".xlsx", ".json"), selected=".csv", width="60%"),
+                                        div(selectInput("downloadTypeHeat", "Download As", c(".csv", ".txt", ".json"), selected=".csv", width="60%"),
                                             downloadButton("dloadheat", "Download")),
                                         DT::dataTableOutput('tables')
                         ),
