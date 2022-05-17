@@ -28,7 +28,6 @@ library(heatmaply)
 library(xml2)
 library(dendextend)
 library(hrbrthemes)
-library(openxlsx)
 library(rlang)
 
 load_data <-function() {
