@@ -2105,6 +2105,11 @@ function(input, output, session) {
         
     )
     
+    # START HISTOGRAM PAGE
+    
+    
+    # START BASIC HIST
+    
     x_val <- reactiveVal(NULL)
     
     observeEvent(input$drugperc_rows_selected, ignoreNULL = FALSE, {
@@ -2151,7 +2156,9 @@ function(input, output, session) {
             plotly::config(modeBarButtons = list(list("toImage")), displaylogo = FALSE)
     })
     
-    #MODAL COPY
+    # END BASIC HIST
+    
+    # START MODAL (popup) COPY
     output$histogram2 <- renderPlotly({
         shiny::validate(
             need(length(class_dat_global()$PRR)>0, "No Data Available")
@@ -2203,11 +2210,13 @@ function(input, output, session) {
         paste("Count: ", len, " out of ", length(unique(dset$PT_TERM[which(dset$INAME==input$cc_2)])))
     })
     
+    # END MODAL (popup) COPY
+    
     
     
     #---------------- COPY FOR TWO HIST ----------------
     
-    # hist 1
+    # START hist 1
     
     observeEvent(input$hist_type, {
         toggle("choose_hist2")
@@ -2326,9 +2335,9 @@ function(input, output, session) {
         len <- length(unique(dset[which(dset$INAME==input$cc_2 & dset$PRR>=quantile(class_dat_global()$PRR, input$pcentile_input21/100)),])$PT_TERM)
         paste("Count: ", len, " out of ", length(unique(dset$PT_TERM[which(dset$INAME==input$cc_2)])))
     })
+    # END hist 1
     
-    
-    # hist 2
+    # START hist 2
     
     class_name2 <- reactiveVal("MUSCULO-SKELETAL SYSTEM")
     
@@ -2514,13 +2523,15 @@ function(input, output, session) {
         paste("Count: ", len, " out of ", length(unique(dset$PT_TERM[which(dset$INAME==input$cc_2)])))
     })
     
+    # END hist 2
+    
     #---------------- END COPY FOR TWO HIST----------------
     
     
     
-    
-    
     #---------------- END HISTOGRAM tab----------------
+    
+    
     
     
     
@@ -2531,16 +2542,8 @@ function(input, output, session) {
     
     
     data.sel <- reactiveValues(df=NULL)
-    #     
-    # observeEvent(input$data, {
-    #     req(!is.null(input$data))
-    #     # data.sel$df <- as.data.frame(obj[[input$data]])
-    #     process(obj[[input$data]])
-    # })  
     global_drugs=reactiveValues(dat=NULL)
-    # atc_chosen = reactiveVal(1)
     observeEvent(input$heat_file, {
-        # atc_chosen(0)
         req(input$heat_file)
         tryCatch(
             {
@@ -2553,13 +2556,12 @@ function(input, output, session) {
         )
     })
     
-    observeEvent(input$class_choices, { # DELETE IGNORE INIT (for debugging)
+    observeEvent(input$class_choices, { 
         x=unique(dset$INAME[which(dset$ATC1==input$class_choices |  dset$ATC2==input$class_choices | dset$ATC3==input$class_choices | dset$ATC4==input$class_choices)])
         process(x)
     })
     
     observeEvent(input$check_drugs, {
-        # atc_chosen(0)
         show('done_heat')
     })
     
@@ -2574,8 +2576,6 @@ function(input, output, session) {
     
     process <- function(drugs){
         global_drugs$dat=drugs
-        # print(drugs)
-        # print(mp[["TRIAMTERENE"]][["MENIERE'S DISEASE"]])
         if(length(drugs)<=2) {
             showNotification("Not enough data for selected drugs.", closeButton = TRUE,
                              type = "error")
@@ -2809,27 +2809,11 @@ function(input, output, session) {
     output$dendro <- renderPlot({
         dat = t(data.sel$df)
         
-        # d <- dist(dat, method = "euclidean") # Euclidean distance matrix.
-        # H.fit <- hclust(d, method="average")
-        
         dend <- dat %>% dist(method="euclidean") %>% hclust(method = "average") %>% 
             as.dendrogram 
         par(mar = c(2,2,2,20))
         dend %>% plot(horiz=TRUE, main = "Average clustering using Euclidean distance")
-        
-        # plot + color the dend's branches before, based on 3 clusters:
-        # dend %>% plot(horiz=TRUE, main = "Substance Clustering")
-        
-        # add horiz rect
         dend %>% rect.dendrogram(k=input$c,horiz=TRUE)
-        
-        
-        
-        # par(cex=.5,font=1)
-        # 
-        # plot(as.dendrogram(H.fit), hang=-1, main="Substance Clustering", horiz=T)
-        #      # label=rownames(dat))
-        # rect.hclust(H.fit, k=input$c, border="red") 
     })
     
     
@@ -2858,8 +2842,10 @@ function(input, output, session) {
     
     output$drug.cluster=renderDataTable(data.frame("Substance"=colnames(data.sel$df), "Cluster"=kmeans(t(data.sel$df), centers=input$c)$cluster), rownames=FALSE)
     
+    # END HEATMAP
     
-    #open fda
+    
+    # START OPENFDA
     
     output$filtered_bar <- renderPlot({
         req(input$open_drug!="All" || input$open_ae!="All")
@@ -3030,6 +3016,9 @@ function(input, output, session) {
             ggplot(df, aes(fill=seriousness, y=freq, x=year)) + geom_bar(position="stack", stat="identity")
         }
     })
+    
+    
+    # END OPENFDA
     
     # greatly improve performance from loading
     updateSelectizeInput(session, "intro_drug", choices=vars2, selected=vars2[11])
