@@ -11,7 +11,7 @@ function(input, output, session) {
     bar_title1 <- renderText(input$intro_drug)
     
     output$faers_link <- renderUI({
-        print(gsub(' ', '-', str_to_title(input$intro_drug)))
+        # print(gsub(' ', '-', str_to_title(input$intro_drug)))
         a("View on FAERS Public Dashboard", target="_blank", href=paste0("https://fis.fda.gov/sense/app/95239e26-e0be-42d9-a960-9a5f7f1c25ee/sheet/45beeb74-30ab-46be-8267-5756582633b4/state/analysis/select/Search%20Term/", gsub(' ', '-', str_to_title(input$intro_drug)), "%20(G)"))
     })
     
@@ -107,15 +107,16 @@ function(input, output, session) {
             df <- data.frame(ae=aes$PT_TERM, count=aes$PT_COUNT, prr=aes$PRR)
             colnames(df) <- c("Adverse Event", "Count", "PRR")
         }
-        print(df)
-        df <- unique(df)
+        
+        df <- distinct(df)
+        # print(df)
         showModal(modalDialog(
             size = "l",
             easyClose = TRUE,
             title=paste0(input$intro_drug, "-related Adverse Events"),
-            div(renderFormattable({formattable(df, align = c("l",rep("r", ncol(df) - 1)),
+            div(renderDT(as.datatable(formattable(df, align = c("l",rep("r", ncol(df) - 1)),
                                                list(Count=my_color_bar(color="#fad584"), PRR=my_color_bar(color="#cf4085"))
-            )}), style="max-height: 510px; overflow-y: scroll"),
+            ))), style="max-height: 510px; overflow-y: scroll"),
             footer = tagList(
                 modalButton("Exit")
             )
@@ -346,9 +347,9 @@ function(input, output, session) {
             size = "l",
             easyClose = TRUE,
             title=paste0(input$intro_ae, "-related Substances"),
-            div(renderFormattable({formattable(df, align = c("l",rep("r", ncol(df) - 1)),
+            div(renderDT(as.datatable(formattable(df, align = c("l",rep("r", ncol(df) - 1)),
                                                list(Count=my_color_bar2(color="#fad584"), PRR=my_color_bar(color="#cf4085"))
-            )}), style="max-height: 510px; overflow-y: scroll"),
+            ))), style="max-height: 510px; overflow-y: scroll"),
             footer = tagList(
                 modalButton("Exit")
             )
@@ -474,7 +475,7 @@ function(input, output, session) {
         else{
             n=0
         }
-        colnames(df) = c(paste0(input$ae, " (N=", n, ")"), "Min", "Q1", "Median",  "Q3", "Max", "Mean", "STD")
+        colnames(df) = c(paste0(input$intro_ae, " (N=", n, ")"), "Min", "Q1", "Median",  "Q3", "Max", "Mean", "STD")
         
         dt <- datatable(df, rownames = FALSE, options = list(dom = 't', scrollX=T)) %>%
             DT::formatStyle(names(df),lineHeight='90%') 
@@ -501,7 +502,7 @@ function(input, output, session) {
         pt2 <- subset(dset, select = c(INAME, CASE_COUNT, PT_COUNT, PT_TERM, PRR, L10_PRR, ATC1, ATC2, ATC3, ATC4),
                       subset = (PT_TERM == barData$x & CASE_COUNT > ifelse(is.null(input$num_obs),1000,input$num_obs)))
         data<- merge(pt1,pt2, by="INAME") %>% distinct()
-        print(data)
+        # print(data)
         xmin <- min(data$L10_PRR.x)
         xmax <- max(data$L10_PRR.x)
         ymin <- min(data$L10_PRR.y)
@@ -747,9 +748,9 @@ function(input, output, session) {
         if(!is.null(input$class_l3)) updateSelectInput(session, "class_l3", "Level 3 Class", atc_l3(), selected=NULL)
         if(!is.null(input$class_l4)) updateSelectInput(session, "class_l4", "Level 4 Class", atc_l4(), selected=NULL)
         updateSliderInput(session, inputId="casecount_box1",label="Minimum Case Count",min=100,max=50000,value=1000)
-        updateSliderInput(session, inputId="ptcount_box1",label="Minimum Adverse Event Count",min=5,max=100,value=10)
+        updateSliderInput(session, inputId="ptcount_box1",label="Minimum Adverse Event Count",min=5,max=100,value=5)
         cc_1(1000)
-        ptc_1(10)
+        ptc_1(5)
         rerender()
         pts$data = pts_temp$data
     })
@@ -1042,7 +1043,7 @@ function(input, output, session) {
     
     observeEvent(input$reset_ae, {
         updateSliderInput(session, inputId="casecount",label="Substance Count",min=100,max=50000,value=1000)
-        updateSliderInput(session, inputId="ptcount",label="Adverse Event Count",min=5,max=100,value=10)
+        updateSliderInput(session, inputId="ptcount",label="Adverse Event Count",min=5,max=100,value=5)
     })
     
     atc_col <- reactive({
@@ -1548,7 +1549,7 @@ function(input, output, session) {
         d2<-subset(dset,select=c(PT_TERM,PT_COUNT,PT_TERM,PRR,L10_PRR),
                    subset=(INAME==input$ycol2))
         dat <- merge(d1,d2,by="PT_TERM") %>% distinct()
-        numericInput(inputId="ptcount2",label="Adverse Event Count",min=max(5, min(dat$PT_COUNT.x)),max=max(dat$PT_COUNT.x),value=10)
+        numericInput(inputId="ptcount2",label="Adverse Event Count",min=max(5, min(dat$PT_COUNT.x)),max=max(dat$PT_COUNT.x),value=5)
     })
     
     output$download_3 <- downloadHandler(
@@ -1702,7 +1703,7 @@ function(input, output, session) {
     })
     
     observeEvent(input$reset_subs, {
-        updateSliderInput(session, inputId="ptcount2",label="Adverse Event Count",min=5,max=100,value=10)
+        updateSliderInput(session, inputId="ptcount2",label="Adverse Event Count",min=5,max=100,value=5)
     })
     
     #------------------------------------------------------------------------------------------------------------------------------------------
@@ -2125,7 +2126,7 @@ function(input, output, session) {
         if(length(ptile)==0 | is.na(ptile)) ptile=100
         
         ae=unique(dset[which(dset$INAME==input$cc_2 & dset$PRR>=quantile(class_dat_global()$PRR, input$pcentile_input/100)), "PT_TERM"])[input$drugperc_rows_selected]
-        paste(ae, " > ", round(x_val(), 2), " corresp. to < ", round(100*ptile, 2), "%")
+        paste(ae, " > ", round(x_val(), 2), " corresp. to > ", round(100*ptile, 2), "%")
     })
     
     vline <- function(x = 0, color = "red") {
