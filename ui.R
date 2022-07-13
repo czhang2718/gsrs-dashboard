@@ -99,7 +99,7 @@ tagList(
                 
                 fluidRow(
                   column(width = 6,
-                         box(id= "intro-pie", width = NULL, height="50%", status="warning",
+                         box(id= "intro-pie", width = NULL, status="warning",
                              solidHeader = TRUE, 
                              actionButton("pop_pie", label="", icon = icon("fas fa-expand-arrows-alt"), style="display: inline-block; float: right"), 
                              bsModal("pop_pie_modal", "", trigger="pop_pie", size="large", plotlyOutput("pie_chart2")),
@@ -124,7 +124,7 @@ tagList(
                                  }"
                               )
                              ),
-                             div(id="aebar", style="overflow-y: scroll; position: relative", plotlyOutput("top_ae"))
+                             div(id="aebar", style="overflow-y: scroll; ", plotlyOutput("top_ae"))
                          )
                   )
                 )
@@ -222,7 +222,7 @@ tagList(
                          ),
                          
                          bsModal("ae_dt", "Data Table", trigger="dt_open1", size="large",
-                                 div(style="float: left", checkboxInput("alldata", "Unfiltered", value = FALSE)),
+                                 div(style="float: left", checkboxInput("alldata", "Unfiltered by ATC Class", value = FALSE)),
                                  div(style="float:right", downloadButton("download_2", "Download")),
                                  div(style="float:right", selectInput("downloadType2", label=NULL, choices=c("CSV"=".csv", "TXT"=".txt", "XLSX"=".xlsx", "JSON"=".json"), selected=".csv", width=80)),
                                  
