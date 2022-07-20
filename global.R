@@ -28,16 +28,15 @@ library(heatmaply)
 library(xml2)
 library(dendextend)
 library(hrbrthemes)
+library(openxlsx)
 library(rlang)
+library(seqinr)
 
-load_data <-function() {
-  hide('startbutton')
-  Sys.sleep(0)
-  show('startbutton')
-}
 
 #load main dataset
-dset <- read.csv("DSET_ALL2.csv")
+# dset <- read.csv("DSET_ALL2.csv")
+dset <- read.csv("DSET_ALL3.csv")
+
 #dset=dset[,-1]
 heat_test <- read.csv("HEAT_DSET.csv")
 
@@ -94,22 +93,7 @@ collapseInput <- function(inputId, boxId) {
 }
 
 plotHeight <- 800
-# obj <- list("heat"=heat_test, "iris"=iris)
-
-# test heat map matrix
-
-# drugs = c("SOYBEAN OIL",
-#           "ALLOPURINOL",
-#           "TRIAMTERENE",
-#           "FLUOROMETHOLONE",
-#           "PHENPROCOUMON",
-#           "MAGNESIUM CHLORIDE",
-#           "TEMOZOLOMIDE")
-# print(drugs)
-# min_prr=0
 used <- new.env(hash = TRUE)  # map for used pt terms
-# used[["hi"]][["no"]]=TRUE
-# print(used[["hi"]][["no"]])
 mp <- new.env(hash=TRUE)
 for(i in 1:nrow(dset)){
   mp[[dset$INAME[i]]][[dset$PT_TERM[i]]]=dset$PRR[i]
