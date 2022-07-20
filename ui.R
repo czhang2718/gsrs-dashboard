@@ -41,6 +41,10 @@ tagList(
   tags$head(tags$style(HTML('.wrapper {height: auto !important; position:relative; overflow-x:hidden; overflow-y:hidden}'))), # .modal-dialog { width: fit-content !important; }
   div(id="start-page", img(id="bg", src="img3.jpg"),
       h1(id="loading_text", "G-SRS Data Explorer"),
+      HTML("<div id='metric-grp'>
+           <button class='metric' id='use_prr'>PRR</button>
+           <button class='metric' id='use_gps'>EBGM/GPS</button>
+          </div>"),
       HTML("<button id='startbutton'>Start</button>")),
   hidden(div(id="main-content", dashboardPage(
     dashboardHeader(title = "G-SRS Dashboard"
