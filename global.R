@@ -35,7 +35,7 @@ library(seqinr)
 
 #load main dataset
 # dset <- read.csv("DSET_ALL2.csv")
-dset <- read.csv("DSET_ALL3.csv")
+dset0 <- read.csv("DSET_ALL3.csv")
 
 #dset=dset[,-1]
 heat_test <- read.csv("HEAT_DSET.csv")
@@ -95,6 +95,6 @@ collapseInput <- function(inputId, boxId) {
 plotHeight <- 800
 used <- new.env(hash = TRUE)  # map for used pt terms
 mp <- new.env(hash=TRUE)
-for(i in 1:nrow(dset)){
-  mp[[dset$INAME[i]]][[dset$PT_TERM[i]]]=dset$PRR[i]
+for(i in 1:nrow(dset0)){
+  mp[[dset0$INAME[i]]][[dset0$PT_TERM[i]]]=dset0$PRR[i]
 }
