@@ -30,6 +30,8 @@ dropdownBtn <- function(label = "", status = c("default", "primary", "success", 
   )
 }
 
+# makeReactiveBinding("dset")
+
 tagList(
   useShinyjs(),
   tags$script(src = "myscript.js"),
@@ -41,19 +43,19 @@ tagList(
   tags$head(tags$style(HTML('.wrapper {height: auto !important; position:relative; overflow-x:hidden; overflow-y:hidden}'))), # .modal-dialog { width: fit-content !important; }
   div(id="start-page", img(id="bg", src="img3.jpg"),
       h1(id="loading_text", "G-SRS Data Explorer"),
-      HTML("<div id='metric-grp'>
-           <button class='metric' id='use_prr'>PRR</button>
-           <button class='metric' id='use_gps'>EBGM/GPS</button>
-          </div>"),
+      # HTML("<div id='metric-grp'>
+      #      <button class='metric' id='use_prr'>PRR</button>
+      #      <button class='metric' id='use_gps'>EBGM/GPS</button>
+      #     </div>"),
       HTML("<button id='startbutton'>Start</button>")),
   hidden(div(id="main-content", dashboardPage(
-    dashboardHeader(title = "G-SRS Dashboard"
-                    # dropdownMenu(type = "messages", icon=icon("question-circle"), headerText = "",
-                    #              messageItem(
-                    #                from = "PRR",
-                    #                icon=icon("chart-bar"),
-                    #                message = div("[definition of PRR]")
-                    #              ),
+    dashboardHeader(title = "G-SRS Dashboard",
+                    dropdownMenu(type = "messages", icon=icon("question-circle"), headerText = "",
+                          messageItem(
+                            from = "PRR",
+                            icon=icon("chart-bar"),
+                            message = "[definition of PRR]"
+                          ))
                     #              messageItem(
                     #                from = "Drug",
                     #                message = "Drugs in this database are chemical substance used in the treatment, cure, prevention, or diagnosis of disease",
@@ -66,6 +68,7 @@ tagList(
                     #              ))
     ),
     dashboardSidebar(
+      selectInput("metric_select", "Select Metric (PRR/RR)", choices=c("PRR", "RR")),
       sidebarMenu(
         menuItem("Browse Substances", tabName="intro"),
         menuItem("Browse Adverse Events", tabName="intro2"),
@@ -118,8 +121,7 @@ tagList(
                   column(width = 6,
                          box(id= "intro-box", title = "Adverse Events", width = NULL, 
                              
-                             div(style="display: inline-block;", selectInput("sort_by", c("Number of Adverse Events", "PRR", "Alphabetical"), 
-                                                                             label = "Sort by", selected="Number of Adverse Events", multiple=FALSE, width = "210px")),
+                             div(style="display: inline-block;", uiOutput("box_select")),
                              actionButton("popdt", "", icon = icon("fas fa-expand-arrows-alt"), style="display: inline-block; float: right"), 
                              # span(style="float:right;  padding-right: 20px; visibility:hidden", "."),
                              textOutput("bar_title1"), #??? doesn't work
@@ -165,8 +167,7 @@ tagList(
                   column(width = 6,
                          box(id= "intro-box2", title = "Substances", width = NULL, 
                              
-                             div(style="display: inline-block;", selectInput("sort_by2", c("PT Count", "PRR", "Alphabetical"), 
-                                                                             label = "Sort by", selected="PT Count", multiple=FALSE, width = "210px")),
+                             div(style="display: inline-block;", uiOutput("box_select2")),
                              actionButton("popdt2", "", icon = icon("fas fa-expand-arrows-alt"), style="display: inline-block; float: right"), 
                              span(style="float:right;  padding-right: 20px; visibility:hidden", "."),
                              div(id="subsbar", style="overflow-y: scroll; position: relative", plotlyOutput("top_subs"))
@@ -434,7 +435,7 @@ tagList(
                                              )
                                          ))
                                 ),
-                                tabPanel("PRRs Sorted", div(style="width:30%", uiOutput("sortby4")), div(style="overflow-x: scroll; position: relative", 
+                                tabPanel("Stacked Bar", div(style="width:30%", uiOutput("sortby4")), div(style="overflow-x: scroll; position: relative", 
                                                                                                          actionButton("pop_bar4", label="", icon = icon("fas fa-expand-arrows-alt"), style="display: inline-block; float: right"), 
                                                                                                          tags$br(), tags$br(),
                                                                                                          bsModal("bar4_modal", "", trigger="pop_bar4", size="large", div(style="overflow-x: scroll; position: relative", plotlyOutput("bar42"))),
@@ -548,7 +549,11 @@ tagList(
           column(width=6, selectizeInput("open_drug", "Substance", choices=NULL)),
           column(width=6, selectizeInput("open_ae", "Adverse Event", choices=NULL)),
           column(width=12, tabBox(width=NULL, 
-                                  tabPanel("Stacked", selectizeInput("stack_option", "Classify by", choices=c("Patient Age", "Patient Sex", "Seriousness"), multiple=FALSE), withSpinner(plotOutput("open_stacked"))),
+                                  tabPanel("Stacked", selectizeInput("stack_option", "Classify by", choices=c("Patient Age", "Patient Sex", "Seriousness"), multiple=FALSE), 
+                                           width=NULL,
+                                           div(
+                                             style = "position:relative",
+                                             withSpinner(plotOutput("open_stacked")))),
                                   tabPanel("Filtered", 
                                            div(style="display: inline-block;vertical-align:top; width: 100px;",
                                                selectizeInput("age", "Age", choices=c("All", seq(1, 100, 1)))),
@@ -556,7 +561,10 @@ tagList(
                                                selectizeInput("sex", "Sex", choices=c("All", "Unknown", "Male", "Female"))),
                                            div(style="display: inline-block;vertical-align:top; width: 100px;",
                                                selectizeInput("serious", "Serious or not", choices=c("All", c(0, 1)))),
-                                           withSpinner(plotOutput("filtered_bar"))
+                                           width=NULL,
+                                           div(
+                                             style = "position:relative",
+                                             withSpinner(plotlyOutput("filtered_bar")))
                                   )
           )
           ),
