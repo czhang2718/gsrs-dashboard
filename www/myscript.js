@@ -104,27 +104,46 @@ function setHeight() {
     const window_height = $(window).height();
     const header_height = $(".main-header").height();
     const boxHeight = window_height - header_height;
-    // $("#intro-pie").height(boxHeight);
-    console.log("change 12:34pm");
-    $("#aebar").height($('#table-box').height()+$('#intro-pie').height());
+    $("#aebar").height($('#table-box').height()+$('#intro-pie').height()-10);
 }
 
-// setHeight2 = function() {
-//     const window_height = $(window).height();
-//     const header_height = $(".main-header").height();
-//     const boxHeight = window_height - header_height;
-//     console.log(boxHeight);
-//     $("#intro-pie").height(boxHeight/3);
-//     // $("#subsbar").height($('#table-box2').height()+$('#intro-pie2').height());
-// };
+setHeight2 = function() {
+    const window_height = $(window).height();
+    const header_height = $(".main-header").height();
+    const boxHeight = window_height - header_height;
+    $("#aebar2").height($('#table-box2').height()+$('#intro-pie2').height()-10);
+};
 
 $(document).on("shiny:connected", function(e) {
     setHeight();
-    console.log("connected1");
-    // setHeight2();
+    setHeight2();
+    // console.log("connected!");
+
+    let prrmodal = document.getElementById("prr-modal");
+    let prrlink = document.getElementById("prr-link");
+    let prrspan = document.getElementById("prr-close");
+    prrlink.onclick = function() {
+        prrmodal.style.display = "block";
+    }
+    prrspan.onclick = function() {
+        prrmodal.style.display = "none";
+    }
+
+    let rrmodal = document.getElementById("rr-modal");
+    let rrlink = document.getElementById("rr-link");
+    let rrspan = document.getElementById("rr-close");
+    rrlink.onclick = function() {
+        rrmodal.style.display = "block";
+    }
+    rrspan.onclick = function() {
+        rrmodal.style.display = "none";
+    }
 });
 
 $(window).resize(function(e) {
     setHeight();
-    // setHeight2();
+    setHeight2();
 });
+
+
+
