@@ -48,24 +48,39 @@ tagList(
       #      <button class='metric' id='use_gps'>EBGM/GPS</button>
       #     </div>"),
       HTML("<button id='startbutton'>Start</button>")),
+  HTML('<div id="prr-modal" class="modal">
+        <div class="modal-content">
+          <span id="prr-close" class="close">&times;</span>
+          <img src="prr_img.png" style="max-width: 60%; max-height: 60%; margin-left: auto; margin-right: auto; display: block;">
+        </div>
+      </div>'
+  ),
+  HTML('<div id="rr-modal" class="modal">
+        <div class="modal-content">
+          <span id="rr-close" class="close">&times;</span>
+          <p> 
+          We use the reporting ratio in the Gamma-Poisson shrinkage model. 
+          </br> See </br>
+          <ul>
+          <li> DuMouchel, W. (1999). Bayesian Data Mining in Large Frequency Tables, with an Application to the FDA Spontaneous Reporting System. The American Statistician, 53(3), 177. doi:10.2307/2686093 </li>
+          <li> Ahmed, I., Haramburu, F., Fourrier-Réglat, A., Thiessard, F., Kreft-Jais, C., Miremont-Salamé, G., … Tubert-Bitter, P. (2009). Bayesian pharmacovigilance signal detection methods revisited in a multiple comparison setting. Statistics in Medicine, 28(13), 1774–1792. doi:10.1002/sim.3586 </li>
+          </ul>
+          </p>
+        </div>
+      </div>'
+  ),
   hidden(div(id="main-content", dashboardPage(
     dashboardHeader(title = "G-SRS Dashboard",
-                    dropdownMenu(type = "messages", icon=icon("question-circle"), headerText = "",
-                          messageItem(
-                            from = "PRR",
-                            icon=icon("chart-bar"),
-                            message = "[definition of PRR]"
-                          ))
-                    #              messageItem(
-                    #                from = "Drug",
-                    #                message = "Drugs in this database are chemical substance used in the treatment, cure, prevention, or diagnosis of disease",
-                    #                icon = icon("prescription-bottle")
-                    #              ),
-                    #              messageItem(
-                    #                from = "Adverse Event",
-                    #                message = "An adverse event is an unanticipated experience or side effect associated with the use of a drug or therapeutic biologic in humans, whether or not it is considered related to the product.",
-                    #                icon = icon("lungs-virus")
-                    #              ))
+                    dropdownMenu(type = "notifications", icon=icon("question-circle"), headerText = "",
+                          notificationItem(
+                            icon = icon("null"),
+                            text = HTML("<p id='prr-link'> Proportional Reporting Ratio (PRR) </p>")
+                          ),
+                          notificationItem(
+                            icon = icon("null"),
+                            text = HTML("<p id='rr-link'> Reporting Ratio (RR) </p>")
+                          )
+                        )
     ),
     dashboardSidebar(
       selectInput("metric_select", "Select Metric (PRR/RR)", choices=c("PRR", "RR")),
