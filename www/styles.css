@@ -11,6 +11,28 @@ body, html {
   background-size: cover;
 }
 
+#metric-grp{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  display: none;
+}
+
+.metric{
+  background-color: #c4c4c4;
+  color: white;
+  font-size: 16px;
+  padding: 12px 24px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.metric:hover {
+  background-color: rgb(148, 148, 148);
+}
 
 #startbutton{
   position: absolute;
@@ -38,7 +60,7 @@ body, html {
 
 #loading_text{
   position: absolute;
-  font-size: xx-large;
+   font-size: 60px;
   color: white;
   position: absolute;
   top: 30%;
@@ -101,4 +123,52 @@ body, html {
 .square {
     width: 12px;
     height: 12px;
+}
+
+
+
+
+
+
+
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 10000000; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#prr-modal {
+  display: none;
 }
